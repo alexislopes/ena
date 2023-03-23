@@ -19,6 +19,18 @@ const lastTransaction = computed(() => {
   return maxBy(dados.value, o => o.timestamp)
 })
 
+const monthTransactions = computed(() => {
+  return dados.value.filter(dado => { return isEqual({ month: new Date(dado.timestamp).getMonth(), year: new Date(dado.timestamp).getFullYear() }, lastMonthYear.value) })
+})
+
+const incomes = computed(() => {
+  return dados.value.filter(dado => dado.Valor > 1).map(m => m.Valor).reduce((a, b) => a + b, 0)
+})
+
+const expenses = computed(() => {
+  return dados.value.filter(dado => dado.Valor < 1).map(m => m.Valor).reduce((a, b) => a + b, 0)
+})
+
 const lastMonthYear = computed(() => {
   const date = new Date(lastTransaction.value.timestamp);
   return {
