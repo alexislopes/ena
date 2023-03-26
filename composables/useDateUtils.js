@@ -1,4 +1,4 @@
-export const useDateutils = () => {
+export const useDateUtils = () => {
   function timestampToWeeklyCode(timestamp) {
     const data = new Date(timestamp);
     const diaDoMes = data.getDate();
@@ -16,4 +16,5 @@ export const useDateutils = () => {
     return new Date(timestamp).getFullYear();
   }
 
+  return { timestamToYearlyCode, timestampToMonthlyCode, timestampToWeeklyCode }
 }

@@ -2,13 +2,17 @@
   <div>
     <input type="file" name="" id="" @change="handleFileUpload">
   </div>
+                {{ JSON.stringify(store.lastTransactions) }}
 </template>
 
 <script setup>
 import { isEqual, maxBy } from "lodash";
 import Papa from "papaparse";
 import { computed, ref } from "vue";
+import { useTransactionsStore } from "./store/transactionsStore.js";
 const dados = ref(undefined)
+
+const store = useTransactionsStore()
 
 function parseDate(data) {
   const [dia, mes, ano] = data.split("/");
@@ -60,6 +64,7 @@ function handleFileData(fileData) {
   })
 
   dados.value = fileData;
+  store.setTransactions(fileData)
 
 }
 
