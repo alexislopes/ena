@@ -1,39 +1,32 @@
 <template>
   <div>
+    <span @click="store.setType('weekly')">weekly</span>
+    <span @click="store.setType('monthly')">monthly</span>
+    <span @click="store.setType('yearly')">yearly</span>
+  </div>
+  <div>
     <input type="file" name="" id="" @change="handleFileUpload">
   </div>
-                {{ JSON.stringify(store.lastTransactions) }}
+      title: {{ store.title[store.type] }} |
+      incomes: {{ store.incomes }} |
+      received: {{ store.received }} |
+      expenses: {{ store.expenses }} |
 </template>
 
 <script setup>
-import { isEqual, maxBy } from "lodash";
+import { isEqual } from "lodash";
 import Papa from "papaparse";
 import { computed, ref } from "vue";
+import { useDateUtils } from "./composables/useDateUtils";
 import { useTransactionsStore } from "./store/transactionsStore.js";
 const dados = ref(undefined)
 
+const {parseDate} = useDateUtils()
+
 const store = useTransactionsStore()
 
-function parseDate(data) {
-  const [dia, mes, ano] = data.split("/");
-  return new Date([mes, dia, ano]).getTime()
-}
 
-const lastTransaction = computed(() => {
-  return maxBy(dados.value, o => o.timestamp)
-})
 
-const monthTransactions = computed(() => {
-  return dados.value.filter(dado => { return isEqual({ month: new Date(dado.timestamp).getMonth(), year: new Date(dado.timestamp).getFullYear() }, lastMonthYear.value) })
-})
-
-const incomes = computed(() => {
-  return dados.value.filter(dado => dado.Valor > 1).map(m => m.Valor).reduce((a, b) => a + b, 0)
-})
-
-const expenses = computed(() => {
-  return dados.value.filter(dado => dado.Valor < 1).map(m => m.Valor).reduce((a, b) => a + b, 0)
-})
 
 const lastMonthYear = computed(() => {
   const date = new Date(lastTransaction.value.timestamp);

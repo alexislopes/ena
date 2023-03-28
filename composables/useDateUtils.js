@@ -1,20 +1,27 @@
 export const useDateUtils = () => {
+
+  function weekOfTimestamp(timestamp) {
+    return Math.ceil((new Date(timestamp).getDate() + new Date(new Date(timestamp).getFullYear(), new Date(timestamp).getMonth(), 1).getDay()) / 7)
+
+  }
+
   function timestampToWeeklyCode(timestamp) {
-    const data = new Date(timestamp);
-    const diaDoMes = data.getDate();
-    const diaDaSemana = data.getDay();
-    const primeiroDia = new Date(data.getFullYear(), data.getMonth(), 1).getDay();
-    const offset = diaDaSemana + ((diaDoMes - 1) % 7) - primeiroDia;
-    return Math.floor(offset / 7) + 1;
+
+    return `${new Date(timestamp).getMonth()}${new Date(timestamp).getFullYear()}${weekOfTimestamp}`;
   }
 
   function timestampToMonthlyCode(timestamp) {
     return `${new Date(timestamp).getMonth()}${new Date(timestamp).getFullYear()}`
   }
 
-  function timestamToYearlyCode(timestamp) {
+  function timestampToYearlyCode(timestamp) {
     return new Date(timestamp).getFullYear();
   }
 
-  return { timestamToYearlyCode, timestampToMonthlyCode, timestampToWeeklyCode }
+  function parseDate(data) {
+    const [dia, mes, ano] = data.split("/");
+    return new Date([mes, dia, ano]).getTime()
+  }
+
+  return { timestampToYearlyCode, timestampToMonthlyCode, timestampToWeeklyCode, weekOfTimestamp, parseDate }
 }
