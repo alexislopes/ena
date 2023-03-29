@@ -7,23 +7,41 @@
   <div>
     <input type="file" name="" id="" @change="handleFileUpload">
   </div>
-      title: {{ store.title[store.type] }} |
-      incomes: {{ store.incomes }} |
-      received: {{ store.received }} |
-      expenses: {{ store.expenses }} |
+  title: {{ store.title[store.type] }} |
+  incomes: {{ store.incomes }} |
+  received: {{ store.received }} |
+  expenses: {{ store.expenses }} |
+  <!-- by resource: {{ transactionsByResource }} -->
 </template>
 
 <script setup>
 import { isEqual } from "lodash";
 import Papa from "papaparse";
 import { computed, ref } from "vue";
-import { useDateUtils } from "./composables/useDateUtils";
-import { useTransactionsStore } from "./store/transactionsStore.js";
+import { useDateUtils } from "../composables/useDateUtils";
+import { useResourcesStore } from "../store/resourcesStore.js";
+import { useTransactionsStore } from "../store/transactionsStore.js";
 const dados = ref(undefined)
 
-const {parseDate} = useDateUtils()
+const { parseDate } = useDateUtils()
 
-const store = useTransactionsStore()
+const store = useTransactionsStore();
+const resourcesStore = useResourcesStore()
+
+const transactionsByResource = computed(() => {
+  return resourcesStore.resources.map(resource => {
+    return {
+      resource: resource.agregador,
+      transactions: store.lastTransactions.filter(transaction => transaction.Conta.toLowerCase().includes(resource.agregador))
+    }
+  })
+})
+
+const incomesByResource = computed(() => {
+  return transactionsByResource.value.map(tbr => {
+    return Object.assign(tbr, { incomes: tbr.transactions.filter(t => t.Valor > 0).map(m => m.Valor).reduce((a, b) => a + b, 0) })
+  })
+})
 
 
 
