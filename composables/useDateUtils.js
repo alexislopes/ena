@@ -7,7 +7,7 @@ export const useDateUtils = () => {
 
   function timestampToWeeklyCode(timestamp) {
 
-    return `${new Date(timestamp).getMonth()}${new Date(timestamp).getFullYear()}${weekOfTimestamp}`;
+    return `${new Date(timestamp).getMonth()}${new Date(timestamp).getFullYear()}${weekOfTimestamp(timestamp)}`;
   }
 
   function timestampToMonthlyCode(timestamp) {

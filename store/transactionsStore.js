@@ -44,16 +44,16 @@ export const useTransactionsStore = defineStore('transactions', () => {
   }
 
   const received = computed(() => {
-    return lastTransactions.value.filter(dado => dado.Valor > 1).map(m => m.Valor).reduce((a, b) => a + b, 0)
+    return lastTransactions.value.filter(dado => dado.Valor > 0).map(m => m.Valor).reduce((a, b) => a + b, 0)
   })
 
   const expenses = computed(() => {
-    return lastTransactions.value.filter(dado => dado.Valor < 1).map(m => m.Valor).reduce((a, b) => a + b, 0)
+    return lastTransactions.value.filter(dado => dado.Valor < 0).map(m => m.Valor).reduce((a, b) => a + b, 0)
   })
 
   const incomes = computed(() => {
     return lastTransactions.value.filter(dado => incomesCategories.value.includes(dado.Subcategoria)).map(m => m.Valor).reduce((a, b) => a + b, 0)
   })
 
-  return { lastTransactions, transactions, setTransactions, incomes, expenses, received, setType, type, title }
+  return { lastTransactions, transactions, setTransactions, incomes, expenses, received, setType, type, title, transactionsByType }
 })
