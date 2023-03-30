@@ -13,6 +13,7 @@
   "dependencies": {
     "@nuxtjs/composition-api": "^0.33.1",
     "@pinia/nuxt": "^0.4.7",
+    "@vueuse/core": "^9.13.0",
     "lodash": "^4.17.21",
     "papaparse": "^5.4.0",
     "pinia": "^2.0.33",

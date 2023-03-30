@@ -1,13 +1,15 @@
+import { useLocalStorage } from "@vueuse/core";
 import { maxBy } from "lodash";
 import { computed, ref } from "vue";
 import { useDateUtils } from '../composables/useDateUtils.js';
+
 
 export const useTransactionsStore = defineStore('transactions', () => {
 
   const { timestampToMonthlyCode, timestampToWeeklyCode, timestampToYearlyCode, weekOfTimestamp } = useDateUtils()
 
 
-  const transactions = ref([])
+  const transactions = ref(useLocalStorage('transactions', []))
   const type = ref("weekly") // monthly | weekly | yearly  
   const incomesCategories = ref(['Rendimentos', 'Dividendos'])
 
