@@ -11,7 +11,9 @@
   incomes: {{ store.incomes }} |
   received: {{ store.received }} |
   expenses: {{ store.expenses }} |
-  <!-- by resource: {{ transactionsByResource }} -->
+
+                        <Card :relation="distribution" />
+                      <!-- by resource: {{ transactionsByResource }} -->
 </template>
 
 <script setup>
@@ -28,14 +30,25 @@ const { parseDate } = useDateUtils()
 const store = useTransactionsStore();
 const resourcesStore = useResourcesStore()
 
-const transactionsByResource = computed(() => {
-  return resourcesStore.resources.map(resource => {
+const distribution = computed(() => {
+  const total = resourcesStore.transactionsByResources.map(resource => resource.transactions.map(transaction => transaction.Valor).reduce((a, b) => a + b, 0)).reduce((a, b) => a + b, 0)
+  const distr = resourcesStore.transactionsByResources.map(resource => {
     return {
-      resource: resource.agregador,
-      transactions: store.lastTransactions.filter(transaction => transaction.Conta.toLowerCase().includes(resource.agregador))
+      name: resource.agregador,
+      percentage: (Math.abs(resource.transactions.map(transaction => transaction.Valor).reduce((a, b) => a + b, 0)) * 100) / Math.abs(total)
     }
   })
+  return { total, distribution: distr }
 })
+
+// const transactionsByResource = computed(() => {
+//   return resourcesStore.resources.map(resource => {
+//     return {
+//       resource: resource.agregador,
+//       transactions: store.lastTransactions.filter(transaction => transaction.Conta.toLowerCase().includes(resource.agregador))
+//     }
+//   })
+// })
 
 const incomesByResource = computed(() => {
   return transactionsByResource.value.map(tbr => {
