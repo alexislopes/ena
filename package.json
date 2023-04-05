@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@nuxtjs/composition-api": "^0.33.1",
+    "@nuxtjs/tailwindcss": "^6.6.5",
     "@pinia/nuxt": "^0.4.7",
     "@vueuse/core": "^9.13.0",
     "lodash": "^4.17.21",

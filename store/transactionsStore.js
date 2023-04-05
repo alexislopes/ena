@@ -10,13 +10,14 @@ export const useTransactionsStore = defineStore('transactions', () => {
 
 
   const transactions = ref(useLocalStorage('transactions', []))
+  const timestamp = ref(maxBy(transactions.value, "timestamp").timestamp)
   const type = ref("weekly") // monthly | weekly | yearly  
   const incomesCategories = ref(['Rendimentos', 'Dividendos'])
 
   const transactionsByType = computed(() => {
-    const weeklyCode = transactions.value.length ? timestampToWeeklyCode(maxBy(transactions.value, "timestamp").timestamp) : [];
-    const monthlyCode = transactions.value.length ? timestampToMonthlyCode(maxBy(transactions.value, "timestamp").timestamp) : [];
-    const yearlyCode = transactions.value.length ? timestampToYearlyCode(maxBy(transactions.value, "timestamp").timestamp) : [];
+    const weeklyCode = transactions.value.length ? timestampToWeeklyCode(timestamp.value) : [];
+    const monthlyCode = transactions.value.length ? timestampToMonthlyCode(timestamp.value) : [];
+    const yearlyCode = transactions.value.length ? timestampToYearlyCode(timestamp.value) : [];
 
     return {
       weekly: transactions.value.filter(transaction => timestampToWeeklyCode(transaction.timestamp) === weeklyCode),
@@ -57,5 +58,5 @@ export const useTransactionsStore = defineStore('transactions', () => {
     return lastTransactions.value.filter(dado => incomesCategories.value.includes(dado.Subcategoria)).map(m => m.Valor).reduce((a, b) => a + b, 0)
   })
 
-  return { lastTransactions, transactions, setTransactions, incomes, expenses, received, setType, type, title, transactionsByType }
+  return { lastTransactions, transactions, setTransactions, incomes, expenses, received, setType, type, title, transactionsByType, timestamp }
 })

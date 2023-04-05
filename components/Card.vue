@@ -12,20 +12,31 @@ interface Relation {
 }
 
 interface Props {
+  title: string
   relation: Relation
 }
 
 const props = defineProps<Props>()
 
+const { relation } = toRefs(props)
+
+const valor = computed(() => {
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  }).format(relation.value.total);
+})
+
 </script>
 
 <template>
-  <div style="width: fit-content; background: cyan; min-width: 25%;">
-    <h1> Expenses </h1>
-    <h2 :text="relation.total"> {{ relation.total }}</h2>
-    <div style="display: flex;">
-      <div v-for="distribution in relation.distribution" :text="distribution.name"
-        :style="{ width: distribution.percentage + '%', height: '16px', border: '1px solid #ccc', background: '#ed7900' }">
+          <div class="w-fit bg-[#fefefe] min-w-[15%] rounded shadow-lg p-2 flex flex-col gap-2">
+            <h1> {{ title }} </h1>
+            <h2 :text="relation.total"> {{ valor }}</h2>
+            <div v-if="relation.total" style="display: flex;">
+              <div v-for="distribution in relation.distribution.filter(f => f.percentage)" :text="distribution.name" class="bg-amber-500 rounded-full h-2"
+                :style="{ width: distribution.percentage + '%', border: '1px solid #ccc' }">
+                <p class="text-xs">{{ distribution.name }}</p>
       </div>
     </div>
   </div>

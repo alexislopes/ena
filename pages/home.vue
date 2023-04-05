@@ -1,28 +1,33 @@
 <template>
-  <div>
-    <span @click="store.setType('weekly')">weekly</span>
-    <span @click="store.setType('monthly')">monthly</span>
-    <span @click="store.setType('yearly')">yearly</span>
-  </div>
-  <div>
-    <input type="file" name="" id="" @change="handleFileUpload">
-  </div>
-  title: {{ store.title[store.type] }} |
+    <TimeSwitch />
+    <div>
+      <input type="file" name="" id="" @change="handleFileUpload">
+    </div>
+    <!-- title: {{ store.title[store.type] }} |
   incomes: {{ store.incomes }} |
   received: {{ store.received }} |
-  expenses: {{ store.expenses }} |
+  expenses: {{ store.expenses }} | -->
 
-                        <Card :relation="distribution" />
-                      <!-- by resource: {{ transactionsByResource }} -->
+    <div class="flex gap-2">
+
+      <Card title="Incomes" :relation="distributionIncomes" />
+      <Card title="Expenses" :relation="distributionExpenses" />
+      <Card title="Revenues" :relation="distributionRevenues" />
+    </div>
+    <!-- by resource: {{ transactionsByResource }} -->
 </template>
 
 <script setup>
 import { isEqual } from "lodash";
 import Papa from "papaparse";
 import { computed, ref } from "vue";
+import { useTransactions } from "~~/composables/useTransactions";
 import { useDateUtils } from "../composables/useDateUtils";
 import { useResourcesStore } from "../store/resourcesStore.js";
 import { useTransactionsStore } from "../store/transactionsStore.js";
+
+
+const { incomes, revenues, expenses } = useTransactions()
 const dados = ref(undefined)
 
 const { parseDate } = useDateUtils()
@@ -30,12 +35,34 @@ const { parseDate } = useDateUtils()
 const store = useTransactionsStore();
 const resourcesStore = useResourcesStore()
 
-const distribution = computed(() => {
-  const total = resourcesStore.transactionsByResources.map(resource => resource.transactions.map(transaction => transaction.Valor).reduce((a, b) => a + b, 0)).reduce((a, b) => a + b, 0)
+const distributionIncomes = computed(() => {
+  const total = resourcesStore.transactionsByResources.map(resource => incomes(resource.transactions)).reduce((a, b) => a + b, 0)
   const distr = resourcesStore.transactionsByResources.map(resource => {
     return {
       name: resource.agregador,
-      percentage: (Math.abs(resource.transactions.map(transaction => transaction.Valor).reduce((a, b) => a + b, 0)) * 100) / Math.abs(total)
+      percentage: (Math.abs(incomes(resource.transactions)) * 100) / Math.abs(total)
+    }
+  })
+  return { total, distribution: distr }
+})
+
+const distributionExpenses = computed(() => {
+  const total = resourcesStore.transactionsByResources.map(resource => expenses(resource.transactions)).reduce((a, b) => a + b, 0)
+  const distr = resourcesStore.transactionsByResources.map(resource => {
+    return {
+      name: resource.agregador,
+      percentage: (Math.abs(expenses(resource.transactions)) * 100) / Math.abs(total)
+    }
+  })
+  return { total, distribution: distr }
+})
+
+const distributionRevenues = computed(() => {
+  const total = resourcesStore.transactionsByResources.map(resource => revenues(resource.transactions)).reduce((a, b) => a + b, 0)
+  const distr = resourcesStore.transactionsByResources.map(resource => {
+    return {
+      name: resource.agregador,
+      percentage: (Math.abs(revenues(resource.transactions)) * 100) / Math.abs(total)
     }
   })
   return { total, distribution: distr }
