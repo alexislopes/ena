@@ -33,14 +33,17 @@ const time = ref({
                   <div>
                     <span>{{ month }} {{ year }}</span>
                     <div class="flex gap-1">
-                      <span v-for="i in weekCount">S{{ i }}</span>
+                      <span :class="{ 'active': weekOfTimestamp(store.timestamp) === i }" v-for="i in weekCount">S{{ i }}</span>
                     </div>
                   </div>
-                  <!-- <span @click="store.setType('weekly')">weekly {{ weekOfTimestamp(store.timestamp) }}</span>
-                  <span @click="store.setType('monthly')">monthly {{ month }}</span>
-                  <span @click="store.setType('yearly')">yearly {{ year }}</span> -->
+                  d
     <p @click="store.timestamp = store.timestamp + time[store.type]">&gt;</p>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.active {
+  @apply bg-black text-white
+}
+
+</style>

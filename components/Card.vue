@@ -36,7 +36,7 @@ const valor = computed(() => {
             <div v-if="relation.total" style="display: flex;">
               <div v-for="distribution in relation.distribution.filter(f => f.percentage)" :text="distribution.name" class="bg-amber-500 rounded-full h-2"
                 :style="{ width: distribution.percentage + '%', border: '1px solid #ccc' }">
-                <p class="text-xs">{{ distribution.name }}</p>
+                <p class="text-xs">{{ distribution.name }} {{ distribution.percentage.toFixed(2) }}%</p>
       </div>
     </div>
   </div>

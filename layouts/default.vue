@@ -3,7 +3,7 @@
 <template>
   <div>
     <NuxtLink to="/home">Home</NuxtLink> | <NuxtLink to="/resources">Resources</NuxtLink> | <NuxtLink to="/accounts">
-      Accounts</NuxtLink>
+      Accounts</NuxtLink> | <NuxtLink to="analytics"> Analytics </NuxtLink>
     <slot />
   </div>
 </template>
