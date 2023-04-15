@@ -36,7 +36,11 @@ const time = ref({
                       <span :class="{ 'active': weekOfTimestamp(store.timestamp) === i }" v-for="i in weekCount">S{{ i }}</span>
                     </div>
                   </div>
-                  d
+                    <div>
+                      <span @click="store.setType('weekly')">Weekly</span>
+                      <span @click="store.setType('monthly')">Monthly</span>
+                      <span @click="store.setType('yearly')">Yearly</span>
+                    </div>
     <p @click="store.timestamp = store.timestamp + time[store.type]">&gt;</p>
   </div>
 </template>
