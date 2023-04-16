@@ -1,12 +1,12 @@
 <script lang="ts" setup></script>
 
 <template>
-<div class="bg-base min-h-[56px] flex items-center p-4">
-  <div class="flex gap-4 items-center">
-    <Icon name="icon-park-outline:hamburger-button" class="text-white font-medium text-2xl" />
+<div class="bg-base min-h-[56px] flex items-center justify-between p-4">
     <Logo />
-  </div>
   <TimeSwitch />
+  <div>
+    <!-- some other elements go here -->
+  </div>
 </div>
 </template>
 

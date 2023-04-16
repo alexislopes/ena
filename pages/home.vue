@@ -1,20 +1,14 @@
 <template>
-    
-    <div>
-      <input type="file" name="" id="" @change="handleFileUpload">
-    </div>
-    <!-- title: {{ store.title[store.type] }} |
-  incomes: {{ store.incomes }} |
-  received: {{ store.received }} |
-  expenses: {{ store.expenses }} | -->
-
-    <div class="flex gap-2">
-
-      <Card title="Incomes" :relation="distributionIncomes" />
-      <Card title="Expenses" :relation="distributionExpenses" />
-      <Card title="Revenues" :relation="distributionRevenues" />
-    </div>
-    <!-- by resource: {{ transactionsByResource }} -->
+<div class="bg-base w-full">
+  <div>
+    <input type="file" name="" id="" @change="handleFileUpload">
+  </div>
+  <div class="flex gap-2">
+    <Card title="Incomes" :relation="distributionIncomes" />
+    <Card title="Expenses" :relation="distributionExpenses" />
+    <Card title="Revenues" :relation="distributionRevenues" />
+  </div>
+</div>
 </template>
 
 <script setup>

@@ -34,18 +34,13 @@ const title = ref({
 </script>
 
 <template>
-<div class="flex gap-2 justify-between w-full items-center">
-  <div class="text-white flex">
-
-    <p @click="store.timestamp = store.timestamp - time[store.type]">&lt;</p>
-    <div>
+<div class="flex gap-2 justify-between w-fit items-center">
+  <div class="text-white flex items-center gap-2">
+    <Icon @click="store.timestamp = store.timestamp - time[store.type]" name="uil:angle-left-b"  class="cursor-pointer" />
+    <p :key="store.timestamp">
       {{ title[store.type] }}
-      <!-- <span>{{ month }} {{ year }}</span>
-      <div class="flex gap-1">
-        <span :class="{ 'active': weekOfTimestamp(store.timestamp) === i }" v-for="i in weekCount">S{{ i }}</span>
-      </div> -->
-    </div>
-    <p @click="store.timestamp = store.timestamp + time[store.type]">&gt;</p>
+    </p>
+      <Icon @click="store.timestamp = store.timestamp + time[store.type]" name="uim:angle-right-b"  class="cursor-pointer"/>
   </div>
   <div class="flex gap-4">
     <Chip :key="store.type" :active="store.type === 'weekly'" @click="store.setType('weekly')" text="Weekly" />
