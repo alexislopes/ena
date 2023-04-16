@@ -6,9 +6,9 @@ export default {
       colors: {
         base: '#0f0f0f'
       },
-      // fontFamily: {
-      //   sans: 'YouTube Sans'
-      // }
+      fontFamily: {
+        comfortaa: 'Comfortaa'
+      }
     }
   }
 }

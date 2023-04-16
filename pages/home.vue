@@ -1,5 +1,5 @@
 <template>
-    <TimeSwitch />
+    
     <div>
       <input type="file" name="" id="" @change="handleFileUpload">
     </div>

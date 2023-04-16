@@ -25,29 +25,38 @@ const time = ref({
   yearly: 31556926 * 1000
 })
 
+const title = ref({
+  weekly: `Semana ${weekCount.value} DiaX - DiaY ${month.value}`,
+  monthly: `${month.value} ${year.value}`,
+  yearly: `${year.value}`
+})
+
 </script>
 
 <template>
-  <div class="flex gap-2">
+<div class="flex gap-2 justify-between w-full items-center">
+  <div class="text-white flex">
+
     <p @click="store.timestamp = store.timestamp - time[store.type]">&lt;</p>
-                  <div>
-                    <span>{{ month }} {{ year }}</span>
-                    <div class="flex gap-1">
-                      <span :class="{ 'active': weekOfTimestamp(store.timestamp) === i }" v-for="i in weekCount">S{{ i }}</span>
-                    </div>
-                  </div>
-                    <div>
-                      <span @click="store.setType('weekly')">Weekly</span>
-                      <span @click="store.setType('monthly')">Monthly</span>
-                      <span @click="store.setType('yearly')">Yearly</span>
-                    </div>
+    <div>
+      {{ title[store.type] }}
+      <!-- <span>{{ month }} {{ year }}</span>
+      <div class="flex gap-1">
+        <span :class="{ 'active': weekOfTimestamp(store.timestamp) === i }" v-for="i in weekCount">S{{ i }}</span>
+      </div> -->
+    </div>
     <p @click="store.timestamp = store.timestamp + time[store.type]">&gt;</p>
   </div>
+  <div class="flex gap-4">
+    <Chip :key="store.type" :active="store.type === 'weekly'" @click="store.setType('weekly')" text="Weekly" />
+    <Chip :key="store.type" :active="store.type === 'monthly'" @click="store.setType('monthly')" text="Monthly" />
+    <Chip :key="store.type" :active="store.type === 'yearly'" @click="store.setType('yearly')" text="Yearly" />
+  </div>
+</div>
 </template>
 
 <style scoped>
 .active {
   @apply bg-black text-white
 }
-
 </style>
