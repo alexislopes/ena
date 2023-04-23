@@ -1,9 +1,14 @@
 <script lang="ts" setup></script>
 
 <template>
-<div class="logo">
-  blu?
-</div>
+  <div class="flex items-center gap-2">
+    <div class="logo-alt">
+      b?
+    </div>
+    <div class="logo">
+      blu?
+    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -11,5 +16,9 @@
 
 .logo {
   @apply text-white font-comfortaa text-3xl select-none
+}
+
+.logo-alt {
+  @apply p-1 bg-[#42b4d8] font-comfortaa text-3xl rounded-xl font-bold; 
 }
 </style>

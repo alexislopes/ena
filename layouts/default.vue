@@ -3,7 +3,7 @@
 <template>
 <div class="h-screen">
   <Nav />
-  <div class="flex h-[calc(100vh_-_56px)]">
+  <div class="flex h-[calc(100vh_-_71.25px)]">
 
     <Menu />
     <slot />

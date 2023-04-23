@@ -17,7 +17,7 @@ export const useTransactions = () => {
   }
 
   function revenues(transactions: Transaction[]) {
-    const incomesCategories = ref(['Rendimentos', 'Dividendos'])
+    const incomesCategories = ref(['Rendimentos', 'Dividendos', 'Proventos'])
     return transactions.filter(transaction => transaction.Valor > 0).filter(transaction => incomesCategories.value.includes(transaction.Subcategoria)).map(transaction => transaction.Valor).reduce((a, b) => a + b, 0)
   }
 

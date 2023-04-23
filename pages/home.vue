@@ -1,17 +1,29 @@
 <template>
-<div class="bg-base w-full">
-  <div>
-    <input type="file" name="" id="" @change="handleFileUpload">
+<div class="flex flex-col bg-base w-full">
+
+  <div class="flex items-center w-full justify-center">
+    <TimeSwitch />
   </div>
-  <div class="flex gap-2">
-    <Card title="Incomes" :relation="distributionIncomes" />
-    <Card title="Expenses" :relation="distributionExpenses" />
-    <Card title="Revenues" :relation="distributionRevenues" />
+  <div class=" gap-4 grid grid-cols-2 p-4">
+    <div class="grid grid-cols-3 gap-2 h-fit">
+      <Card title="Incomes" :relation="distributionIncomes" />
+      <Card title="Expenses" :relation="distributionExpenses" />
+      <Card title="Revenues" :relation="distributionRevenues" />
+    </div>
+    <div class="flex justify-end">
+      <div  :class="['dropzone', { over: isOverDropZone }]" ref="dropzone">
+        <label for="file" class="bg-[#42b4d8] text-white font-medium px-4 py-2 rounded">
+          Importar transaçoes
+          <input class="hidden" id="file" type="file" name="" @change="handleFileUpload($event.target.files)">
+        </label>
+      </div>
+    </div>
   </div>
 </div>
 </template>
 
 <script setup>
+import { useDropZone } from '@vueuse/core';
 import { isEqual } from "lodash";
 import Papa from "papaparse";
 import { computed, ref } from "vue";
@@ -21,8 +33,12 @@ import { useResourcesStore } from "../store/resourcesStore.js";
 import { useTransactionsStore } from "../store/transactionsStore.js";
 
 
+definePageMeta({ title: "Home | blu?" })
+
 const { incomes, revenues, expenses } = useTransactions()
 const dados = ref(undefined)
+const dropzone = ref(undefined)
+
 
 const { parseDate } = useDateUtils()
 
@@ -113,9 +129,10 @@ function handleFileData(fileData) {
 
 }
 
-async function handleFileUpload(event) {
+async function handleFileUpload(files) {
+  console.log(files)
   let d = []
-  await Papa.parse(event.target.files[0], { delimiter: ";", header: true, complete: async function (results) { handleFileData(results.data) } })
+  await Papa.parse(files[0], { delimiter: ";", header: true, complete: async function (results) { handleFileData(results.data) } })
   console.log(d)
   d.forEach(d => {
     parseDate(d['Data'])
@@ -123,7 +140,18 @@ async function handleFileUpload(event) {
 }
 
 
+const { isOverDropZone } = useDropZone(dropzone, handleFileUpload)
 
 
 
 </script>
+
+<style scoped>
+.dropzone {
+  @apply bg-[#282828] border-2 border-dashed border-[#3e3e3e] w-[50%] flex items-center justify-center rounded-md;
+}
+
+.dropzone.over {
+  @apply border-[#42b4d8]
+}
+</style>
