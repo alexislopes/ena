@@ -10,7 +10,7 @@ export const useTransactionsStore = defineStore('transactions', () => {
 
 
   const transactions = ref(useLocalStorage('transactions', []))
-  const timestamp = ref(maxBy(transactions.value, "timestamp").timestamp)
+  const timestamp = ref(maxBy(transactions.value, "timestamp")?.timestamp) || new Date().getTime();
   const type = ref("weekly") // monthly | weekly | yearly  
   const incomesCategories = ref(['Rendimentos', 'Dividendos', 'Proventos'])
 

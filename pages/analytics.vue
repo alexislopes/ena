@@ -40,49 +40,51 @@ const maximo = computed(() => {
 </script>
 
 <template>
-                    <div>
-                      <input type="text" v-model="searchString">
-                      <span @click="recieves = !recieves">recieves</span>
-                      <span @click="expenses = !expenses">expenses</span>
-                    </div>
-                  <div class="flex">
-
-                    <table class="table">
-                      <thead>
-                        <th>
-                          <tr>
-          
-          
-                            <td>Descrição</td>
-                            <td>Valor</td>
-                            <td>Data</td>
-                            <td>Conta</td>
-                            <td>Categoria</td>
-                            <td>Subcategoria</td>
-                          </tr>
-                        </th>
-                      </thead>
-                      <tbody>
-                        <tr v-for="transaction in filteredTransactions">
-                          <td>{{ transaction['Descrição'] }}</td>
-                          <td>{{ transaction['Valor'] }}</td>
-                          <td>{{ transaction['Data'] }}</td>
-                          <td>{{ transaction['Conta'] }}</td>
-                          <td>{{ transaction['Categoria'] }}</td>
-                          <td>{{ transaction['Subcategoria'] }}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <div>
-                      <div><p>Mean</p>
-                      <p>{{ mean }}</p></div>
-                      <div><p>Total</p>
-                      <p>{{ sum }}</p></div>
-                      <div><p>Max</p>
-                      <p>{{ maximo }}</p></div>
-  </div>
+<div>
+  <input type="text" v-model="searchString">
+  <span @click="recieves = !recieves">recieves</span>
+  <span @click="expenses = !expenses">expenses</span>
 </div>
-</template>
+<div class="flex">
 
-<style scoped>
-</style>
+  <table class="table">
+    <thead>
+      <th>
+        <tr>
+          <td>Descrição</td>
+          <td>Valor</td>
+          <td>Data</td>
+          <td>Conta</td>
+          <td>Categoria</td>
+          <td>Subcategoria</td>
+        </tr>
+      </th>
+    </thead>
+    <tbody>
+      <tr v-for="transaction in filteredTransactions">
+        <td>{{ transaction['Descrição'] }}</td>
+        <td>{{ transaction['Valor'] }}</td>
+        <td>{{ transaction['Data'] }}</td>
+        <td>{{ transaction['Conta'] }}</td>
+        <td>{{ transaction['Categoria'] }}</td>
+        <td>{{ transaction['Subcategoria'] }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
+    <div>
+      <p>Mean</p>
+      <p>{{ mean }}</p>
+    </div>
+    <div>
+      <p>Total</p>
+      <p>{{ sum }}</p>
+    </div>
+    <div>
+      <p>Max</p>
+      <p>{{ maximo }}</p>
+    </div>
+  </div>
+</div></template>
+
+<style scoped></style>

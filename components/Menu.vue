@@ -18,6 +18,10 @@
       <Icon name="material-symbols:analytics" class="menu__icon"/>
       <span>Analytics</span>
     </NuxtLink>
+    <NuxtLink to="/goals" class="menu__item">
+      <Icon name="octicon:goal-16" class="menu__icon"/>
+      <span>Goals</span>
+    </NuxtLink>
   </div>
 </template>
 

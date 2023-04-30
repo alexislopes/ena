@@ -33,32 +33,32 @@ function saveComposite() {
 </script>
 
 <template>
-                          <div style="display: flex; gap: 3rem;">
-                            <div>
-                              <h1>Stored</h1>
-                              <div v-for="conta in accounts" :key="conta.nome">
-                                <input type="checkbox" :value="conta.nome" v-model="composite" />
-                                {{ conta.nome }}
-                                <input type="number" name="" :value="conta.valor" @blur="conta.valor = $event.target.value" id="">
-                              </div>
-                              <input type="text" name="" v-model="compositeName" id="">
-                              <button :disabled="!(composite.length && compositeName)" @click="saveComposite">Add composite</button>
-                            </div>
-                            <div>
-                              <h1>Not Stored</h1>
-                              <div v-for="nconta in notSavedAccounts">
-                                {{ nconta }}
-                                <span @click="save(nconta)">+</span>
-                                <span @click="archive(nconta)">-</span>
-                              </div>
-                            </div>
-                            <div>
-                              <h1>Composite</h1>
-                              <div v-for="conta in compositeWithValues">
-                                {{ conta.nome }} {{ conta.valor }}
-                              </div>
-                            </div>
+<div style="display: flex; gap: 3rem;">
+  <div>
+    <h1>Stored</h1>
+    <div v-for="conta in accounts" :key="conta.nome">
+      <input type="checkbox" :value="conta.nome" v-model="composite" />
+      {{ conta.nome }}
+      <input type="number" name="" :value="conta.valor" @blur="conta.valor = $event.target.value" id="">
+    </div>
+    <input type="text" name="" v-model="compositeName" id="">
+    <button :disabled="!(composite.length && compositeName)" @click="saveComposite">Add composite</button>
   </div>
+  <div>
+    <h1>Not Stored</h1>
+    <div v-for="nconta in notSavedAccounts">
+      {{ nconta }}
+      <span @click="save(nconta)">+</span>
+      <span @click="archive(nconta)">-</span>
+    </div>
+  </div>
+  <div>
+    <h1>Composite</h1>
+    <div v-for="conta in compositeWithValues">
+      {{ conta.nome }} {{ conta.valor }}
+    </div>
+  </div>
+</div>
 </template>
 
 <style scoped></style>
