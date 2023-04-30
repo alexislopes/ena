@@ -16,6 +16,6 @@ defineProps({
 }
 
 .progress__indicator {
-  @apply rounded-full h-full
+  @apply rounded-full h-full transition-[width] duration-1000
 }
 </style>
