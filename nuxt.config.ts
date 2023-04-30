@@ -5,7 +5,8 @@ export default defineNuxtConfig({
     // ...
     '@pinia/nuxt',
     '@nuxtjs/tailwindcss',
-    'nuxt-icon'
+    'nuxt-icon',
+    '@nuxtjs/supabase'
   ],
   pinia: {
     autoImports: [
