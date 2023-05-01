@@ -33,7 +33,7 @@ import { useResourcesStore } from "../store/resourcesStore.js";
 import { useTransactionsStore } from "../store/transactionsStore.js";
 
 
-definePageMeta({ title: "Home | blu?" })
+definePageMeta({ title: "Home | blu?", middleware: 'auth' })
 
 const { incomes, revenues, expenses } = useTransactions()
 const dados = ref(undefined)

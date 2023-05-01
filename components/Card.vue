@@ -17,16 +17,11 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+import { useFinancial } from "../composables/useFinancial"
+
+const { currency } = useFinancial()
 
 const { relation } = toRefs(props)
-
-const valor = computed(() => {
-  return new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL'
-  }).format(relation.value.total);
-})
-
 </script>
 
 <template>
@@ -34,7 +29,7 @@ const valor = computed(() => {
   <div class="flex flex-col p-6 w-full">
     <h1 class="card__title"> {{ title }} </h1>
     <span class="text-sm text-white mb-4">Total no período</span>
-    <h2 :text="relation.total" class="text-4xl text-white font-medium leading-10"> {{ valor }}</h2>
+    <h2 :text="relation.total" class="text-4xl text-white font-medium leading-10"> {{ currency(relation.total) }}</h2>
     <hr class="my-4 border-[#3e3e3e]">
     <div class="flex gap-3 flex-col">
       <div class="flex flex-col gap-1"  v-for="distribution in relation.distribution.filter(f => f.percentage)" :text="distribution.name">
@@ -50,7 +45,5 @@ const valor = computed(() => {
 </template>
 
 <style scoped>
-.card__title {
-  @apply text-white text-lg mb-5 font-medium
-}
+
 </style>

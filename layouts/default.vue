@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-definePageMeta({ middleware: 'auth' })
+
 </script>
 
 <template>
@@ -17,4 +17,8 @@ definePageMeta({ middleware: 'auth' })
 
 <style>
 @import url('https://fonts.cdnfonts.com/css/youtube-sans');
+
+.card__title {
+  @apply text-white text-lg mb-5 font-medium
+}
 </style>
