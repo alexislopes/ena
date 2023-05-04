@@ -22,6 +22,10 @@
       <Icon name="octicon:goal-16" class="menu__icon"/>
       <span>Goals</span>
     </NuxtLink>
+    <NuxtLink to="/purchases" class="menu__item">
+      <Icon name="bxs:purchase-tag" class="menu__icon"/>
+      <span>Purchases</span>
+    </NuxtLink>
   </div>
 </template>
 

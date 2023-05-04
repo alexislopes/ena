@@ -5,7 +5,7 @@ import { useAccountsStore } from '~~/store/accountsStore';
 const accountsStore = useAccountsStore();
 const client = useSupabaseClient()
 
-import { useFinancial } from "../composables/useFinancial";
+import { calcularMontanteComposto, useFinancial } from "../composables/useFinancial";
 const { currency } = useFinancial()
 
 const conta = ref('');
@@ -20,11 +20,7 @@ interface Goal {
   orcamento: number
 }
 
-//TODO mudar funcao para o composable de financial
-function calcularMontanteComposto(capital: number, juros: number, aporte: number, tempo: number) {
-  //TODO fazer com que aporte seja calculado de acordo com as compras realizadas
-  return capital * Math.pow(1 + juros / 12, 12 * tempo) + aporte * ((Math.pow(1 + juros / 12, 12 * tempo) - 1) / (juros / 12));
-}
+
 
 async function createGoal(goal: Goal) {
   const { error } = await client
@@ -33,7 +29,7 @@ async function createGoal(goal: Goal) {
 }
 
 const { data: objetivos } = await useAsyncData('objetivos', async () => {
-  const { data } = await client.from('objetivos').select()
+  const { data } = await client.from('objetivos').select("id, nome, conta, prazo, orcamento, contas( nome, quantia )")
   return data
 })
 
@@ -63,12 +59,38 @@ const { data: cdi } = await useFetch(`https://api.bcb.gov.br/dados/serie/bcdata.
   <div v-for="goal in objetivos" class="max-w-[20%]">
     <Box class="p-6">
 
-      <h1 class="card__title">{{ goal.nome }}</h1>
+      <h1 class="card__title !mb-0">{{ goal.nome }}</h1>
+      <h3 class="mb-4">{{ goal.nome }}</h3>
       <span class="text-sm text-white mb-4">Progresso</span>
       <Progress
         :progress="(accountsStore.accounts.concat(accountsStore.compositeAccounts).find(account => account.id === goal.conta).valor / goal.orcamento) * 100" />
-      <p>{{ new Date(goal.prazo).toLocaleDateString('pt-br', { month: 'short', day: 'numeric', year: 'numeric' }) }}</p>
-      <p>{{ currency(calcularMontanteComposto(accountsStore.accounts.concat(accountsStore.compositeAccounts).find(account => account.id === goal.conta).valor, Number(cdi[cdi.length - 1].valor) / 100, 150, (new Date(goal.prazo) - new Date()) / (1000 * 60 * 60 * 24 * 365))) }}</p>
+
+      <div class="flex gap-2 flex-col pt-4">
+        <div class="flex justify-between">
+          <div class="flex items-center gap-2">
+            <Icon name="material-symbols:calendar-today" />
+            <p>Prazo</p>
+          </div>
+          <p>{{ new Date(goal.prazo).toLocaleDateString('pt-br', {
+            month: 'short', day: 'numeric', year: 'numeric'
+          }).split(" ").filter(f => f != 'de').join(" ") }}</p>
+        </div>
+        <div class="flex justify-between">
+          <div class="flex items-center gap-2">
+            <Icon name="material-symbols:account-balance-wallet" />
+            <p>Saldo atual</p>
+          </div>
+          <p>{{ currency(accountsStore.accounts.concat(accountsStore.compositeAccounts).find(account => account.id ===
+            goal.conta).valor) }}</p>
+        </div>
+        <div class="flex justify-between">
+          <div class="flex items-center gap-2">
+            <Icon name="ic:baseline-attach-money" />
+            <p>Montante previsto</p>
+          </div>
+          <p>{{ currency(calcularMontanteComposto(accountsStore.accounts.concat(accountsStore.compositeAccounts).find(account => account.id === goal.conta).valor, Number(cdi[cdi.length - 1].valor) / 100, 150, (new Date(goal.prazo) - new Date()) / (1000 * 60 * 60 * 24 * 365))) }}</p>
+        </div>
+      </div>
     </Box>
   </div>
 </div>

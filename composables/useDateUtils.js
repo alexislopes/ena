@@ -23,5 +23,9 @@ export const useDateUtils = () => {
     return new Date([mes, dia, ano]).getTime()
   }
 
-  return { timestampToYearlyCode, timestampToMonthlyCode, timestampToWeeklyCode, weekOfTimestamp, parseDate }
+  function monthsBetweenDates(data1, data2) {
+    return (data2.getFullYear() - data1.getFullYear()) * 12 + (data2.getMonth() - data1.getMonth())
+  }
+
+  return { timestampToYearlyCode, timestampToMonthlyCode, timestampToWeeklyCode, weekOfTimestamp, parseDate, monthsBetweenDates }
 }
