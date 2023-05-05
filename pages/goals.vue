@@ -80,18 +80,14 @@ const { data: cdi } = await useFetch(`https://api.bcb.gov.br/dados/serie/bcdata.
             <Icon name="material-symbols:account-balance-wallet" />
             <p>Saldo atual</p>
           </div>
-          <p>{{ currency(accountsStore.accounts.concat(accountsStore.compositeAccounts).find(account => account.id ===
-            goal.conta).valor) }}</p>
+          <p>{{ currency(accountsStore.accounts.concat(accountsStore.compositeAccounts).find(account => account.id === goal.conta).valor) }}</p>
         </div>
         <div class="flex justify-between">
           <div class="flex items-center gap-2">
             <Icon name="ic:baseline-attach-money" />
             <p>Montante previsto</p>
           </div>
-          <p>{{
-            currency(calcularMontanteComposto(accountsStore.accounts.concat(accountsStore.compositeAccounts).find(account
-              => account.id === goal.conta).valor, Number(cdi[cdi.length - 1].valor) / 100, 150, (new Date(goal.prazo) -
-                new Date()) / (1000 * 60 * 60 * 24 * 365))) }}</p>
+          <p> {{ currency(calcularMontanteComposto(accountsStore.accounts.concat(accountsStore.compositeAccounts).find(account => account.id === goal.conta).valor, Number(cdi[cdi.length - 1].valor) / 100, 150, (new Date(goal.prazo) - new Date()) / (1000 * 60 * 60 * 24 * 365))) }} </p>
         </div>
       </div>
     </Box>
