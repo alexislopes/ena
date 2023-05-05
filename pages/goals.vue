@@ -5,8 +5,8 @@ import { useAccountsStore } from '~~/store/accountsStore';
 const accountsStore = useAccountsStore();
 const client = useSupabaseClient()
 
-import { calcularMontanteComposto, useFinancial } from "../composables/useFinancial";
-const { currency } = useFinancial()
+import { useFinancial } from "../composables/useFinancial";
+const { currency, calcularMontanteComposto } = useFinancial()
 
 const conta = ref('');
 const nome = ref('');
@@ -88,12 +88,18 @@ const { data: cdi } = await useFetch(`https://api.bcb.gov.br/dados/serie/bcdata.
             <Icon name="ic:baseline-attach-money" />
             <p>Montante previsto</p>
           </div>
-          <p>{{ currency(calcularMontanteComposto(accountsStore.accounts.concat(accountsStore.compositeAccounts).find(account => account.id === goal.conta).valor, Number(cdi[cdi.length - 1].valor) / 100, 150, (new Date(goal.prazo) - new Date()) / (1000 * 60 * 60 * 24 * 365))) }}</p>
+          <p>{{
+            currency(calcularMontanteComposto(accountsStore.accounts.concat(accountsStore.compositeAccounts).find(account
+              => account.id === goal.conta).valor, Number(cdi[cdi.length - 1].valor) / 100, 150, (new Date(goal.prazo) -
+                new Date()) / (1000 * 60 * 60 * 24 * 365))) }}</p>
         </div>
       </div>
     </Box>
   </div>
 </div>
+<Backdrop>
+  <TheGoalForm />
+</Backdrop>
 </template>
 
 <style scoped></style>

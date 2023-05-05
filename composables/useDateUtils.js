@@ -1,3 +1,5 @@
+import { useChangeCase } from '@vueuse/integrations/useChangeCase';
+
 export const useDateUtils = () => {
 
   function weekOfTimestamp(timestamp) {
@@ -6,7 +8,6 @@ export const useDateUtils = () => {
   }
 
   function timestampToWeeklyCode(timestamp) {
-
     return `${new Date(timestamp).getMonth()}${new Date(timestamp).getFullYear()}${weekOfTimestamp(timestamp)}`;
   }
 
@@ -24,8 +25,17 @@ export const useDateUtils = () => {
   }
 
   function monthsBetweenDates(data1, data2) {
+    console.log(data1, data2)
     return (data2.getFullYear() - data1.getFullYear()) * 12 + (data2.getMonth() - data1.getMonth())
   }
 
-  return { timestampToYearlyCode, timestampToMonthlyCode, timestampToWeeklyCode, weekOfTimestamp, parseDate, monthsBetweenDates }
+  function formatDate(date) {
+    const month = new Date(date).toLocaleDateString('pt-br', { month: 'short' })
+    const day = new Date(date).getDay();
+    const year = new Date(date).getFullYear();
+
+    return `${useChangeCase(month, 'capitalCase').value} ${day}, ${year}`
+  }
+
+  return { timestampToYearlyCode, timestampToMonthlyCode, timestampToWeeklyCode, weekOfTimestamp, parseDate, monthsBetweenDates, formatDate }
 }
