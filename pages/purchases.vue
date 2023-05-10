@@ -14,7 +14,7 @@ const client = useSupabaseClient()
 let realtimeChannel: RealtimeChannel
   // Fetch collaborators and get the refresh method provided by useAsyncData
   const { data: purchases, refresh: refreshPurchases } = await useAsyncData('compras', async () => {
-    const { data } = await client.from('compras').select()
+    const { data } = await client.from('compras').select("descricao, id, investimento, data_inicio, data_fim, taxa, conta (id, nome, quantia)")
     return data
   })
   // Once page is mounted, listen to changes on the `collaborators` table and refresh collaborators when receiving event

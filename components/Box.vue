@@ -8,6 +8,6 @@
 
 <style scoped>
 .box {
-  @apply bg-[#282828] border-2 border-[#3e3e3e] rounded-md
+  @apply bg-surface border-2 border-detail rounded-md
 }
 </style>
