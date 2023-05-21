@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 // import { usePurchases } from '~~/composables/purchases';
 import { useDateUtils } from "~~/composables/useDateUtils"
+import { usePurchases } from "../composables/purchases"
 import { useFinancial } from "../composables/useFinancial"
 
-const {currency, calcularMontanteComposto } = useFinancial()
-const { monthsBetweenDates, formatDate } = useDateUtils()
+const {currency } = useFinancial()
+const { formatDate } = useDateUtils()
+const { calculaParcela, calculaAPagar } = usePurchases()
 
 // const { purchases } = await usePurchases()
 
@@ -39,7 +41,7 @@ let realtimeChannel: RealtimeChannel
       <span class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 w-fit mb-3">Rolando</span>
       <span class="card__title">{{ descricao }}</span>
       <div class="flex justify-center flex-col items-center">
-        <span class="text-2xl font-bold">{{ currency(investimento * Math.pow(1 + taxa / 100, monthsBetweenDates(new Date(data_inicio), new Date(data_fim))) / monthsBetweenDates(new Date(data_inicio), new Date(data_fim))) }}</span>
+        <span class="text-2xl font-bold">{{ currency(calculaParcela({ investimento, taxa, data_inicio, data_fim })) }}</span>
         <p class="text-sm">Parcela</p>
       </div>
 
@@ -51,7 +53,7 @@ let realtimeChannel: RealtimeChannel
             <span class="text-sm">Investido</span>
           </div>
           <div class="flex flex-col">
-            <span class="font-medium">{{ currency(investimento * Math.pow(1 + taxa / 100, monthsBetweenDates(new Date(data_inicio), new Date(data_fim)))) }}</span>
+            <span class="font-medium">{{ currency(calculaAPagar({investimento, taxa, data_inicio, data_fim})) }}</span>
             <span class="text-end text-sm">A pagar</span>
           </div>
         </div>
