@@ -21,6 +21,10 @@ export const useFinancial = () => {
     return Number(data.value.pop().valor)
   })
 
+  const somaParcelas = () => {
+    return 0
+  }
+
   async function calcularMontanteComposto(capital: number, aporte: number, tempo: number) {
     const juros = await cdi.value / 100
     console.log(juros)
@@ -35,5 +39,5 @@ export const useFinancial = () => {
   }
 
 
-  return { currency, calcularMontanteComposto }
+  return { currency, calcularMontanteComposto, somaParcelas }
 }

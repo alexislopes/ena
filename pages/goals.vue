@@ -3,16 +3,14 @@ definePageMeta({ middleware: 'auth' })
 
 
 import { useDateUtils } from '~/composables/useDateUtils';
-import { useAccountsStore } from '~~/store/accountsStore';
 
 import { useGoals } from '~/composables/goals';
 
-const accountsStore = useAccountsStore();
 const { monthsBetweenDates } = useDateUtils()
 const client = useSupabaseClient()
 
 import { useFinancial } from "../composables/useFinancial";
-const { currency, calcularMontanteComposto } = useFinancial()
+const { currency, calcularMontanteComposto, somaParcelas } = useFinancial()
 
 const { objetivos, Goal } = await useGoals()
 
@@ -99,7 +97,7 @@ const { data: compras } = await useAsyncData('compras', async () => {
               <p>Montante previsto</p>
             </div>
             <!-- <span>{{ new Goal(goal).totalAportes() }}</span> -->
-
+            <p>{{ somaParcelas(goal.contas) }}</p>
             <p> {{ currency(calcularMontanteComposto(goal.contas.map(m => m.conta.quantia).reduce((a, b) => a + b, 0), compras?.filter(f => goal.contas.map(({ conta }) => conta.id).includes(f.conta)).map(m => m.aporte).reduce((a, b) => a + b, 0) , (new Date(goal.prazo) - new Date()) / (1000 * 60 * 60 * 24 * 365))) }} </p>
           </div>
         </div>

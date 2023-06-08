@@ -25,10 +25,12 @@ const time = ref({
   yearly: 31556926 * 1000
 })
 
-const title = ref({
-  weekly: `Semana ${weekCount.value} DiaX - DiaY ${month.value}`,
-  monthly: `${month.value} ${year.value}`,
-  yearly: `${year.value}`
+const title = computed(() => {
+  return {
+    weekly: `Semana ${weekCount.value} DiaX - DiaY ${month.value}`,
+    monthly: `${month.value} ${year.value}`,
+    yearly: `${new Date(store.timestamp).getFullYear()}`
+  }
 })
 
 </script>

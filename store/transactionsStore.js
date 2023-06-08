@@ -38,6 +38,14 @@ export const useTransactionsStore = defineStore('transactions', () => {
     }
   })
 
+  const denominador = computed(() => {
+    return {
+      yearly: { valor: 12, titulo: "Mês" },
+      monthly: { valor: 4, titulo: "Semana" },
+      weekly: { valor: 7, titulo: "Dia" }
+    }
+  })
+
   function setTransactions(value) {
     transactions.value = value
   }
@@ -55,9 +63,8 @@ export const useTransactionsStore = defineStore('transactions', () => {
   })
 
   const incomes = computed(() => {
-    console.log(lastTransactions.value)
     return lastTransactions.value.filter(dado => incomesCategories.value.includes(dado.Subcategoria)).map(m => m.Valor).reduce((a, b) => a + b, 0)
   })
 
-  return { lastTransactions, transactions, setTransactions, incomes, expenses, received, setType, type, title, transactionsByType, timestamp }
+  return { lastTransactions, transactions, setTransactions, incomes, expenses, received, setType, type, title, transactionsByType, timestamp, denominador }
 })
