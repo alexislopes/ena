@@ -1,0 +1,1 @@
+import{u as l}from"./useDateUtils.f5dea9a8.js";const{monthsBetweenDates:r}=l(),o=()=>({calculaParcela:({investimento:a,data_inicio:e,data_fim:t,taxa:c})=>(console.log(a),a*Math.pow(1+c/100,r(new Date(e),new Date(t)))/r(new Date(e),new Date(t))),calculaAPagar:({investimento:a,taxa:e,data_inicio:t,data_fim:c})=>a*Math.pow(1+e/100,r(new Date(t),new Date(c)))});export{o as u};
