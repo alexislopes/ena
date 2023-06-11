@@ -5,6 +5,7 @@ const { monthsBetweenDates } = useDateUtils()
 export const usePurchases = () => {
 
   const calculaParcela = ({ investimento, data_inicio, data_fim, taxa }) => {
+    console.log(investimento)
     return investimento * Math.pow(1 + taxa / 100, monthsBetweenDates(new Date(data_inicio), new Date(data_fim))) / monthsBetweenDates(new Date(data_inicio), new Date(data_fim))
   }
 

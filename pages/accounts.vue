@@ -1,62 +1,52 @@
 <script setup>
-import { v4 as uuidv4 } from 'uuid';
-import { useAccountsStore } from "../store/accountsStore";
-import { useTransactionsStore } from "../store/transactionsStore";
+import { computed } from "vue";
+import { usePurchases } from '~/composables/purchases';
+import { useFinancial } from '~/composables/useFinancial';
 
-const store = useTransactionsStore()
+const { calculaParcela } = usePurchases()
+const {currency} = useFinancial();
 
-const { accounts, setAccount, notSavedAccounts, setArchivedAccount, setCompositeAccount, compositeAccounts, compositeWithValues } = useAccountsStore();
+const client = useSupabaseClient()
 
-const composite = ref([])
-const compositeName = ref(undefined)
+const { data: contas } = await useAsyncData('contas', async () => {
+  const { data } =  await client.from('contas').select("*, recursos ( id, nome ), compras (investimento, data_inicio, data_fim, taxa)");
+  return data
+})
 
-function save(e) {
-  setAccount({
-    nome: e,
-    id: uuidv4(),
-    valor: 0
+const totalByRecurso = computed(() => {
+  return [... new Set(contas.value.map(m => m.recursos.nome))].map(m => {
+    return {
+      recurso: m,
+      total: contas.value.filter(f => f.recursos.nome === m).map(m => m.quantia).reduce((a, b) => a + b, 0)
+    }
   })
-}
-
-function archive(e) {
-  setArchivedAccount(e)
-}
-
-function saveComposite() {
-  setCompositeAccount({
-    nome: compositeName,
-    accounts: composite,
-    id: uuidv4(),
-  })
-}
-
+})
 </script>
 
 <template>
-<div style="display: flex; gap: 3rem;">
-  <div>
-    <h1>Stored</h1>
-    <div v-for="conta in accounts" :key="conta.nome">
-      <input type="checkbox" :value="conta.nome" v-model="composite" />
-      {{ conta.nome }}
-      <input type="number" name="" :value="conta.valor" @blur="conta.valor = $event.target.value" id="">
-    </div>
-    <input type="text" name="" v-model="compositeName" id="">
-    <button :disabled="!(composite.length && compositeName)" @click="saveComposite">Add composite</button>
+<div class="bg-base w-full flex overflow-y-auto pb-4 justify-evenly">
+  <div class="grid grid-cols-2 gap-4">
+
+    <Box v-for="conta in contas" class="w-full h-fit p-2">
+      <span class="card__title">{{ conta.nome }}</span>
+      <div class="flex justify-center flex-col items-center text-white">
+        <span class="text-2xl font-bold">{{ currency(conta.quantia) }}</span>
+        <p class="text-sm">Total</p>
+        <p class="text-sm">{{ conta.recursos.nome }}</p>
+        <p class="text-sm">Aporte mensal de: {{ currency(conta.compras.map(({investimento, data_inicio, data_fim, taxa}) => { return calculaParcela({investimento, data_inicio, data_fim, taxa}) }).reduce((a, b) => a + b ,0) + conta.aporte_padrao )}}</p>
+      </div>
+
+    </Box>
   </div>
-  <div>
-    <h1>Not Stored</h1>
-    <div v-for="nconta in notSavedAccounts">
-      {{ nconta }}
-      <span @click="save(nconta)">+</span>
-      <span @click="archive(nconta)">-</span>
-    </div>
-  </div>
-  <div>
-    <h1>Composite</h1>
-    <div v-for="conta in compositeWithValues">
-      {{ conta.nome }} {{ conta.valor }}
-    </div>
+  <div class="flex gap-2 h-fit flex-col">
+    <Box class="flex flex-col text-white p-2">
+      <span class="card__title">Total</span>
+      <span class="text-2xl font-bold">{{ currency(totalByRecurso.map(m => m.total).reduce((a, b) => a + b, 0)) }}</span>
+    </Box>
+    <Box v-for="recurso in totalByRecurso" class="flex flex-col text-white p-2">
+      <span class="card__title">{{ recurso.recurso }}</span>
+      <span class="text-2xl font-bold">{{ currency(recurso.total) }}</span>
+    </Box>
   </div>
 </div>
 </template>

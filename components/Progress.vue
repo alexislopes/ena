@@ -22,7 +22,7 @@ defineProps({
 }
 
 .tooltip {
-  @apply absolute right-0 -translate-y-full translate-x-1/2  p-1  opacity-0 bg-white font-bold rounded
+  @apply absolute right-0 -translate-y-full translate-x-1/2  p-1  opacity-0 bg-white font-bold rounded text-black
 }
 .progress__indicator:hover .tooltip {
   @apply opacity-100

@@ -1,15 +1,18 @@
 {
   "private": true,
+  "homepage": "https://alexislopes.github.io/ena/",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
     "@nuxtjs/supabase": "^0.3.5",
     "@types/lodash": "^4.14.192",
+    "gh-pages": "^5.0.0",
     "nuxt": "^3.3.1",
     "nuxt-icon": "^0.3.3"
   },

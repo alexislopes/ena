@@ -2,7 +2,10 @@
 definePageMeta({ middleware: 'auth' })
 
 
+import { usePurchases } from '~/composables/purchases';
 import { useDateUtils } from '~/composables/useDateUtils';
+
+const { calculaParcela } = usePurchases()
 
 import { useGoals } from '~/composables/goals';
 
@@ -97,8 +100,9 @@ const { data: compras } = await useAsyncData('compras', async () => {
               <p>Montante previsto</p>
             </div>
             <!-- <span>{{ new Goal(goal).totalAportes() }}</span> -->
-            <p>{{ somaParcelas(goal.contas) }}</p>
-            <p> {{ currency(calcularMontanteComposto(goal.contas.map(m => m.conta.quantia).reduce((a, b) => a + b, 0), compras?.filter(f => goal.contas.map(({ conta }) => conta.id).includes(f.conta)).map(m => m.aporte).reduce((a, b) => a + b, 0) , (new Date(goal.prazo) - new Date()) / (1000 * 60 * 60 * 24 * 365))) }} </p>
+          
+            <p> {{ currency(calcularMontanteComposto(goal.contas.map(m => m.conta.quantia).reduce((a, b) => a + b, 0), (goal.contas.map(m => m.conta.aporte_padrao).reduce((a, b) => a + b, 0) + goal.contas.map(conta => conta.conta.compras.map(compra => {return calculaParcela({investimento: compra.investimento, data_fim: compra.data_fim, data_inicio: compra.data_inicio, taxa: compra.taxa})} ).reduce((a, b)=> a + b, 0)).reduce((a, b) => a + b, 0)), (new Date(goal.prazo) - new Date()) / (1000 * 60 * 60 * 24 * 365))) }} </p>
+            <p>{{  }}</p>
           </div>
         </div>
       </Box>

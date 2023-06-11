@@ -14,10 +14,10 @@
       <Icon name="material-symbols:account-balance-wallet" class="menu__icon"/>
       <span>Accounts</span>
     </NuxtLink>
-    <NuxtLink to="/analytics" class="menu__item">
+    <!-- <NuxtLink to="/analytics" class="menu__item">
       <Icon name="material-symbols:analytics" class="menu__icon"/>
       <span>Analytics</span>
-    </NuxtLink>
+    </NuxtLink> -->
     <NuxtLink to="/goals" class="menu__item">
       <Icon name="octicon:goal-16" class="menu__icon"/>
       <span>Goals</span>

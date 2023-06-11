@@ -50,7 +50,7 @@ export const useGoals = async () => {
   realtimeChannel.subscribe()
 
   const { data: objetivos, refresh: refreshObjetivos } = await useAsyncData('objetivos', async () => {
-    const { data } = await client.from('objetivos').select("id, nome, prazo, orcamento, contas:conta_objetivo(conta(id, nome, aporte_padrao, quantia))")
+    const { data } = await client.from('objetivos').select("id, nome, prazo, orcamento, contas:conta_objetivo(conta(id, nome, aporte_padrao, quantia, compras(*)))")
 
     return data
   })
