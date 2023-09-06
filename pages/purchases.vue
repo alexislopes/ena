@@ -5,7 +5,7 @@ import { usePurchases } from "../composables/purchases"
 import { useFinancial } from "../composables/useFinancial"
 
 const {currency } = useFinancial()
-const { formatDate } = useDateUtils()
+const { formatDate, monthsBetweenDates } = useDateUtils()
 const { calculaParcela, calculaAPagar } = usePurchases()
 
 // const { purchases } = await usePurchases()
@@ -72,6 +72,8 @@ let realtimeChannel: RealtimeChannel
           </div>
         </div>
       </div>
+
+    {{ monthsBetweenDates(new Date(data_inicio), new Date()) * calculaParcela({ investimento, taxa, data_inicio, data_fim }) }}
       <!-- <span class="column_item">{{ currency(investimento * Math.pow(1 + taxa / 100, monthsBetweenDates(new Date(data_inicio), new Date(data_fim))) / monthsBetweenDates(new Date(data_inicio), new Date(data_fim)) * Math.floor(monthsBetweenDates(new Date(data_inicio), new Date())) ) }}</span> -->
     </Box>
   </div>

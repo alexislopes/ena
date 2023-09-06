@@ -31,7 +31,7 @@ export const useDateUtils = () => {
 
   function formatDate(date) {
     const month = new Date(date).toLocaleDateString('pt-br', { month: 'short' })
-    const day = new Date(date).getDay();
+    const day = new Date(date).getDate();
     const year = new Date(date).getFullYear();
 
     return `${useChangeCase(month, 'capitalCase').value} ${day}, ${year}`
