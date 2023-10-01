@@ -36,9 +36,9 @@ let realtimeChannel: RealtimeChannel
 </script>
 
 <template>
-  <div class="bg-base w-full text-white flex gap-4">
+  <div class="bg-base w-full text-white flex gap-4 flex-wrap">
     <Box class="flex flex-col min-w-[18%] h-fit p-4" v-for="({descricao, investimento, taxa, data_inicio, data_fim, id}) in purchases">
-      <span class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 w-fit mb-3">Rolando</span>
+      <!-- <span class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 w-fit mb-3">Rolando</span> -->
       <span class="card__title">{{ descricao }}</span>
       <div class="flex justify-center flex-col items-center">
         <span class="text-2xl font-bold">{{ currency(calculaParcela({ investimento, taxa, data_inicio, data_fim })) }}</span>
